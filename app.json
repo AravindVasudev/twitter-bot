@@ -1,0 +1,7 @@
+{
+  "name": "TheTwitterBot",
+  "description": "A simple twitter bot using tweepy",
+  "image": "heroku/python",
+  "repository": "https://github.com/AravindVasudev/twitter-bot",
+  "keywords": ["python", "tweepy", "twitter", "bot" ]
+}
