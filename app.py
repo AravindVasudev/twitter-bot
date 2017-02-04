@@ -1,3 +1,8 @@
+#! /usr/bin/env python3
+
+# This simple script connects to the Twitter Streaming API using tweepy and
+# tweets everytime when someone mentions the user in the tweet
+
 import os
 import time
 import tweepy
@@ -5,6 +10,14 @@ import tweepy
 class UserStreamListener(tweepy.StreamListener):
     def on_status(self, status):
         print(status.text)
+
+    def on_error(self, status_code):
+        print('Got an error with status code: ' + str(status_code))
+        return True # To continue listening
+
+    def on_timeout(self):
+        print('Timeout...')
+        return True # To continue listening
 
 def main():
     # Authentication
