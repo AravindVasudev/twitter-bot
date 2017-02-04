@@ -2,20 +2,22 @@ import os
 import time
 import tweepy
 
-auth = tweepy.OAuthHandler(os.environ['CONSUMER_KEY'], os.environ['CONSUMER_SECRET'])
-auth.set_access_token(os.environ['ACCESS_TOKEN'], os.environ['ACCESS_TOKEN_SECRET'])
-api = tweepy.API(auth)
+class UserStreamListener(tweepy.StreamListener):
+    def on_status(self, status):
+        print(status.text)
 
-tweetlist = [
-    'A robot may not injure a human being or, through inaction, allow a human being to come to harm. #LearningTheLaws',
-    'A robot must obey orders given it by human beings except where such orders would conflict with the First Law. #LearningTheLaws',
-    'A robot must protect its own existence as long as such protection does not conflict with the First or Second Law. #LearningTheLaws'
-]
+def main():
+    # Authentication
+    auth = tweepy.OAuthHandler(os.environ['CONSUMER_KEY'], os.environ['CONSUMER_SECRET'])
+    auth.set_access_token(os.environ['ACCESS_TOKEN'], os.environ['ACCESS_TOKEN_SECRET'])
+    api = tweepy.API(auth)
 
-for tweet in tweetlist:
-    api.update_status(tweet)
-    print(tweet)
-    print('..........')
-    time.sleep(15)
+    # Create the Stream
+    userTweetStream = tweepy.Stream(auth=api.auth, listener=UserStreamListener())
 
-print('Done.!')
+    # Start the Stream
+    userTweetStream.userstream()
+
+
+
+if __name__ == '__main__': main()
